@@ -1,4 +1,18 @@
-import { WidgetConfig } from '@/types';
+import { WidgetConfig, WidgetType } from '@/types';
+
+export interface TemplateWidget {
+  type: WidgetType;
+  position: {
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+    minW?: number;
+    minH?: number;
+  };
+  isVisible: boolean;
+  isLocked?: boolean;
+}
 
 export interface DashboardTemplate {
   id: string;
@@ -6,7 +20,7 @@ export interface DashboardTemplate {
   description: string;
   icon: string;
   category: 'overview' | 'analysis' | 'tracking' | 'custom';
-  widgets: Omit<WidgetConfig, 'id'>[];
+  widgets: TemplateWidget[];
 }
 
 export const DASHBOARD_TEMPLATES: DashboardTemplate[] = [

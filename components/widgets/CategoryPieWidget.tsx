@@ -9,11 +9,13 @@ interface CategoryPieWidgetProps {
 }
 
 const COLORS = {
-  Alimentation: 'hsl(var(--chart-1))',
+  Alimentaire: 'hsl(var(--chart-1))',
   Transport: 'hsl(var(--chart-2))',
   Logement: 'hsl(var(--chart-3))',
   Loisirs: 'hsl(var(--chart-4))',
   Santé: 'hsl(var(--chart-5))',
+  Vêtements: 'hsl(var(--chart-1))',
+  Électronique: 'hsl(var(--chart-2))',
   Autre: 'hsl(var(--muted-foreground))',
 };
 
@@ -35,7 +37,7 @@ export function CategoryPieWidget({ data }: CategoryPieWidgetProps) {
               cx="50%"
               cy="50%"
               labelLine={false}
-              label={({ name, percent }) =>
+              label={({ name, percent }: any) =>
                 `${name} ${(percent * 100).toFixed(0)}%`
               }
               outerRadius={80}

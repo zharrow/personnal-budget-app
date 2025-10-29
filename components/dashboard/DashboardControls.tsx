@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useWidgets } from '@/contexts/WidgetContext';
 import { GRID_PRESETS, DEFAULT_LAYOUTS } from '@/lib/grid-presets';
-import { Settings, Eye, RotateCcw, Edit3, Check, Grid3x3, Layout } from 'lucide-react';
+import { Settings, Eye, RotateCcw, Edit3, Check, Grid3x3, Layout, Save } from 'lucide-react';
 import { GridLayoutPreset } from '@/types';
 import { TemplateSelector } from './TemplateSelector';
 import { DashboardTemplate } from '@/lib/dashboardTemplates';
@@ -34,6 +34,8 @@ export function DashboardControls({ onPresetHover, onLayoutHover }: DashboardCon
     changeGridPreset,
     applyLayoutPreset,
     applyTemplate,
+    saveDashboard,
+    hasUnsavedChanges,
   } = useWidgets();
 
   const handleModeToggle = () => {
@@ -56,10 +58,27 @@ export function DashboardControls({ onPresetHover, onLayoutHover }: DashboardCon
     applyTemplate(template);
   };
 
+  const handleSave = () => {
+    saveDashboard();
+  };
+
   return (
     <div className="flex items-center gap-2">
       {/* Template Selector */}
       <TemplateSelector onSelectTemplate={handleTemplateSelect} />
+
+      {/* Bouton Sauvegarder */}
+      {hasUnsavedChanges && (
+        <Button
+          variant="default"
+          size="sm"
+          onClick={handleSave}
+          className="gap-2"
+        >
+          <Save className="h-4 w-4" />
+          Sauvegarder
+        </Button>
+      )}
 
       {/* Mode Edition */}
       <Button
@@ -179,13 +198,13 @@ export function DashboardControls({ onPresetHover, onLayoutHover }: DashboardCon
             <Settings className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-48">
+        <DropdownMenuContent align="end" className="w-56">
           <DropdownMenuLabel>Options</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <Button
             variant="ghost"
             size="sm"
-            className="w-full justify-start"
+            className="w-full justify-start text-destructive hover:text-destructive"
             onClick={resetWidgets}
           >
             <RotateCcw className="mr-2 h-4 w-4" />

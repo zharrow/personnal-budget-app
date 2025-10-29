@@ -3,9 +3,10 @@
 import { BaseWidget } from './BaseWidget';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useMemo } from 'react';
+import { Transaction } from '@/types';
 
 interface ExpensesChartWidgetProps {
-  transactions: Array<{ date: Date; montant: number }>;
+  transactions: Transaction[];
 }
 
 export function ExpensesChartWidget({ transactions }: ExpensesChartWidgetProps) {
@@ -17,7 +18,7 @@ export function ExpensesChartWidget({ transactions }: ExpensesChartWidgetProps) 
         month: 'short',
         year: 'numeric',
       });
-      dataByMonth[monthKey] = (dataByMonth[monthKey] || 0) + Math.abs(transaction.montant);
+      dataByMonth[monthKey] = (dataByMonth[monthKey] || 0) + Math.abs(transaction.total);
     });
 
     return Object.entries(dataByMonth)

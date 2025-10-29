@@ -26,7 +26,7 @@ export function BalanceLineWidget({ transactions, initialBalance = 5000 }: Balan
     });
 
     sortedTransactions.forEach((transaction) => {
-      runningBalance += transaction.montant;
+      runningBalance += transaction.total;
       data.push({
         date: new Date(transaction.date).toLocaleDateString('fr-FR', {
           day: '2-digit',
