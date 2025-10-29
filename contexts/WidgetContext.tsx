@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 import { WidgetConfig, GridLayoutPreset, WidgetSize, WidgetSettings } from '@/types';
 import { GRID_PRESETS, DEFAULT_LAYOUTS, applyWidgetSize } from '@/lib/grid-presets';
+import { DashboardTemplate } from '@/lib/dashboardTemplates';
 
 interface WidgetContextType {
   widgets: WidgetConfig[];
@@ -12,6 +13,7 @@ interface WidgetContextType {
   toggleWidgetVisibility: (id: string) => void;
   toggleWidgetLock: (id: string) => void;
   applyLayoutPreset: (presetId: string) => void;
+  applyTemplate: (template: DashboardTemplate) => void;
   changeGridPreset: (presetId: string) => void;
   resizeWidget: (id: string, size: WidgetSize) => void;
   resetWidgets: () => void;
@@ -98,6 +100,36 @@ export function WidgetProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const applyTemplate = (template: DashboardTemplate) => {
+    // Convertir les widgets du template en WidgetConfig complets
+    const newWidgets: WidgetConfig[] = template.widgets.map((widgetData, index) => ({
+      id: widgetData.type,
+      type: widgetData.type,
+      title: getWidgetTitle(widgetData.type),
+      position: widgetData.position,
+      settings: {},
+      isVisible: widgetData.isVisible,
+      isLocked: widgetData.isLocked,
+    }));
+
+    setWidgets(newWidgets);
+  };
+
+  // Fonction helper pour obtenir le titre d'un widget
+  const getWidgetTitle = (type: string): string => {
+    const titles: Record<string, string> = {
+      'solde': 'Solde Global',
+      'categories': 'Dépenses par Catégorie',
+      'garanties': 'Garanties',
+      'transactions': 'Transactions Récentes',
+      'expenses-chart': 'Graphique des Dépenses',
+      'category-pie': 'Répartition par Catégorie',
+      'balance-line': 'Évolution du Solde',
+      'budget-progress': 'Suivi du Budget',
+    };
+    return titles[type] || type;
+  };
+
   const changeGridPreset = (presetId: string) => {
     const preset = GRID_PRESETS.find((p) => p.id === presetId);
     if (preset) {
@@ -151,6 +183,7 @@ export function WidgetProvider({ children }: { children: ReactNode }) {
         toggleWidgetVisibility,
         toggleWidgetLock,
         applyLayoutPreset,
+        applyTemplate,
         changeGridPreset,
         resizeWidget,
         resetWidgets,

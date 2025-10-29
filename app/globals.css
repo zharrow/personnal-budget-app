@@ -45,29 +45,45 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+
+  /* Couleurs de base avec nuances pour la profondeur */
+  --background: oklch(0.98 0 0);
+  --background-elevated: oklch(1 0 0);
+  --background-sunken: oklch(0.96 0 0);
   --foreground: oklch(0.145 0 0);
+
   --card: oklch(1 0 0);
+  --card-elevated: oklch(0.995 0 0);
   --card-foreground: oklch(0.145 0 0);
+
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
+
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
+
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
+
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
+
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
+
   --destructive: oklch(0.577 0.245 27.325);
+
   --border: oklch(0.922 0 0);
+  --border-light: oklch(0.95 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
+
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
+
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -76,32 +92,61 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Ombres directionnelles pour cr\u00e9er de la profondeur */
+  --shadow-light: 0 -1px 3px 0 rgb(255 255 255 / 0.5);
+  --shadow-dark: 0 2px 8px -2px rgb(0 0 0 / 0.08);
+  --shadow-combined: var(--shadow-light), var(--shadow-dark);
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 -1px 2px 0 rgb(255 255 255 / 0.4), 0 4px 12px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 -2px 4px 0 rgb(255 255 255 / 0.3), 0 10px 25px -5px rgb(0 0 0 / 0.15);
+  --shadow-xl: 0 -3px 6px 0 rgb(255 255 255 / 0.25), 0 20px 40px -8px rgb(0 0 0 / 0.2);
+
+  /* Ombres inset pour effet encastr\u00e9 */
+  --shadow-inset: inset 0 2px 4px 0 rgb(0 0 0 / 0.06);
+  --shadow-inset-strong: inset 0 3px 6px 0 rgb(0 0 0 / 0.1);
 }
 
 .dark {
+  /* Couleurs de base avec nuances pour la profondeur */
   --background: oklch(0.145 0 0);
+  --background-elevated: oklch(0.205 0 0);
+  --background-sunken: oklch(0.12 0 0);
   --foreground: oklch(0.985 0 0);
+
   --card: oklch(0.205 0 0);
+  --card-elevated: oklch(0.24 0 0);
   --card-foreground: oklch(0.985 0 0);
+
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
+
   --primary: oklch(0.922 0 0);
   --primary-foreground: oklch(0.205 0 0);
+
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
+
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
+
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
+
   --destructive: oklch(0.704 0.191 22.216);
+
   --border: oklch(1 0 0 / 10%);
+  --border-light: oklch(1 0 0 / 15%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
+
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
+
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
@@ -110,6 +155,19 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* Ombres adapt\u00e9es au mode sombre */
+  --shadow-light: 0 -1px 3px 0 rgb(255 255 255 / 0.05);
+  --shadow-dark: 0 2px 8px -2px rgb(0 0 0 / 0.3);
+  --shadow-combined: var(--shadow-light), var(--shadow-dark);
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 -1px 2px 0 rgb(255 255 255 / 0.03), 0 4px 12px -2px rgb(0 0 0 / 0.4);
+  --shadow-lg: 0 -2px 4px 0 rgb(255 255 255 / 0.02), 0 10px 25px -5px rgb(0 0 0 / 0.5);
+  --shadow-xl: 0 -3px 6px 0 rgb(255 255 255 / 0.02), 0 20px 40px -8px rgb(0 0 0 / 0.6);
+
+  --shadow-inset: inset 0 2px 4px 0 rgb(0 0 0 / 0.3);
+  --shadow-inset-strong: inset 0 3px 6px 0 rgb(0 0 0 / 0.4);
 }
 
 @layer base {
@@ -117,7 +175,149 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+@layer utilities {
+  /* Utilitaires de profondeur - Ombres directionnelles */
+  .depth-sm {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .depth-md {
+    box-shadow: var(--shadow-md);
+  }
+
+  .depth-lg {
+    box-shadow: var(--shadow-lg);
+  }
+
+  .depth-xl {
+    box-shadow: var(--shadow-xl);
+  }
+
+  /* Ombres inset pour effet encastré */
+  .depth-inset {
+    box-shadow: var(--shadow-inset);
+  }
+
+  .depth-inset-strong {
+    box-shadow: var(--shadow-inset-strong);
+  }
+
+  /* Surfaces élevées avec nuances */
+  .surface-elevated {
+    background: var(--background-elevated);
+  }
+
+  .surface-sunken {
+    background: var(--background-sunken);
+  }
+
+  .card-elevated {
+    background: var(--card-elevated);
+  }
+
+  /* Effet hover avec profondeur renforcée - À utiliser explicitement uniquement */
+  .hover-depth {
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+
+  .hover-depth:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+
+  /* Micro-interaction: effet de pression */
+  .press-effect {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .press-effect:active {
+    transform: scale(0.98);
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Bordure lumineuse supérieure pour simuler l'éclairage */
+  .light-border-top {
+    border-top: 1px solid rgb(255 255 255 / 0.1);
+  }
+
+  /* Séparateur avec gradient pour profondeur */
+  .separator-depth {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--border) 10%,
+      var(--border) 90%,
+      transparent
+    );
+  }
+
+  /* Animation de révélation au scroll */
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: reveal 0.6s ease forwards;
+  }
+
+  @keyframes reveal {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Effet glassmorphism avec profondeur */
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px) saturate(180%);
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .dark .glass-effect {
+    background: rgba(32, 32, 32, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Hiérarchie typographique */
+  .text-display {
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  .text-headline {
+    font-size: 1.875rem;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  .text-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+  }
+
+  .text-body-emphasis {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  /* Rythme et espacement */
+  .rhythm-section {
+    margin-bottom: 3rem;
+  }
+
+  .rhythm-group {
+    margin-bottom: 1.5rem;
   }
 }
 
