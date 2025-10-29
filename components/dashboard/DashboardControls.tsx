@@ -53,6 +53,18 @@ export function DashboardControls({ onPresetHover, onLayoutHover }: DashboardCon
     }
   };
 
+  const handleGridPresetChange = (presetId: string) => {
+    changeGridPreset(presetId);
+    // Réinitialiser le hover après sélection pour masquer l'overlay
+    setTimeout(() => onPresetHover?.(null), 100);
+  };
+
+  const handleLayoutPresetApply = (layoutId: string) => {
+    applyLayoutPreset(layoutId);
+    // Réinitialiser le hover après sélection pour masquer l'overlay
+    setTimeout(() => onLayoutHover?.(null), 100);
+  };
+
   return (
     <div className="flex items-center gap-2">
       {/* Mode Edition / Sandbox */}
@@ -104,7 +116,7 @@ export function DashboardControls({ onPresetHover, onLayoutHover }: DashboardCon
 
           <DropdownMenuRadioGroup
             value={currentLayout.id}
-            onValueChange={changeGridPreset}
+            onValueChange={handleGridPresetChange}
           >
             {GRID_PRESETS.map((preset) => (
               <DropdownMenuRadioItem
@@ -145,7 +157,7 @@ export function DashboardControls({ onPresetHover, onLayoutHover }: DashboardCon
               variant="ghost"
               size="sm"
               className="w-full justify-start"
-              onClick={() => applyLayoutPreset(layoutId)}
+              onClick={() => handleLayoutPresetApply(layoutId)}
               onMouseEnter={() => onLayoutHover?.(layoutId)}
               onMouseLeave={() => onLayoutHover?.(null)}
             >
