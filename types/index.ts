@@ -40,14 +40,21 @@ export interface Garantie {
 
 // Types pour les widgets du dashboard
 export type WidgetType =
+  | 'solde'
+  | 'categories'
+  | 'garanties'
+  | 'transactions'
+  | 'expenses-chart'
+  | 'category-pie'
+  | 'balance-line'
+  | 'budget-progress'
   | 'solde_global'
   | 'graphique_depenses'
   | 'derniers_tickets'
   | 'calendrier_paiements'
   | 'tableur'
   | 'objectif_epargne'
-  | 'top_magasins'
-  | 'garanties';
+  | 'top_magasins';
 
 export type WidgetSize = 'small' | 'medium' | 'large' | 'xlarge' | 'custom';
 export type WidgetDisplayMode = 'compact' | 'normal' | 'detailed';

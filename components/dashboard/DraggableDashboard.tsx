@@ -9,6 +9,10 @@ import { SoldeWidget } from '@/components/widgets/SoldeWidget';
 import { CategoriesWidget } from '@/components/widgets/CategoriesWidget';
 import { GarantiesWidget } from '@/components/widgets/GarantiesWidget';
 import { RecentTransactionsWidget } from '@/components/widgets/RecentTransactionsWidget';
+import { ExpensesChartWidget } from '@/components/widgets/ExpensesChartWidget';
+import { CategoryPieWidget } from '@/components/widgets/CategoryPieWidget';
+import { BalanceLineWidget } from '@/components/widgets/BalanceLineWidget';
+import { BudgetProgressWidget } from '@/components/widgets/BudgetProgressWidget';
 import { WidgetCustomizer } from './WidgetCustomizer';
 import { Transaction, Garantie, Categorie, WidgetConfig } from '@/types';
 import { Settings2, Lock } from 'lucide-react';
@@ -154,6 +158,14 @@ export function DraggableDashboard({
         return <GarantiesWidget garanties={garanties} />;
       case 'transactions':
         return <RecentTransactionsWidget transactions={transactions} />;
+      case 'expenses-chart':
+        return <ExpensesChartWidget transactions={transactions} />;
+      case 'category-pie':
+        return <CategoryPieWidget data={categoriesData} />;
+      case 'balance-line':
+        return <BalanceLineWidget transactions={transactions} initialBalance={solde} />;
+      case 'budget-progress':
+        return <BudgetProgressWidget categoriesData={categoriesData} />;
       default:
         return null;
     }
@@ -172,7 +184,7 @@ export function DraggableDashboard({
     <>
       <div ref={containerRef} className={isEditMode ? 'select-none' : ''}>
         <GridLayout
-          className={`layout ${isEditMode && isDragging ? 'show-grid' : ''}`}
+          className={`layout ${isEditMode ? 'show-grid' : ''} transition-all duration-300`}
           layout={layout}
           cols={currentLayout.columns}
           rowHeight={currentLayout.rowHeight}

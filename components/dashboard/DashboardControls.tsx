@@ -13,8 +13,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useWidgets } from '@/contexts/WidgetContext';
 import { GRID_PRESETS, DEFAULT_LAYOUTS } from '@/lib/grid-presets';
-import { Settings, Eye, RotateCcw, Edit3, Check, Grid3x3, Layout, Boxes } from 'lucide-react';
+import { Settings, Eye, RotateCcw, Edit3, Check, Grid3x3, Layout } from 'lucide-react';
 import { GridLayoutPreset } from '@/types';
+import { TemplateSelector } from './TemplateSelector';
+import { DashboardTemplate } from '@/lib/dashboardTemplates';
 
 interface DashboardControlsProps {
   onPresetHover?: (preset: GridLayoutPreset | null) => void;
@@ -29,28 +31,13 @@ export function DashboardControls({ onPresetHover, onLayoutHover }: DashboardCon
     resetWidgets,
     isEditMode,
     setIsEditMode,
-    isSandboxMode,
-    setIsSandboxMode,
     changeGridPreset,
     applyLayoutPreset,
+    applyTemplate,
   } = useWidgets();
 
   const handleModeToggle = () => {
-    if (isSandboxMode) {
-      setIsSandboxMode(false);
-      setIsEditMode(false);
-    } else if (isEditMode) {
-      setIsEditMode(false);
-    } else {
-      setIsEditMode(true);
-    }
-  };
-
-  const handleSandboxToggle = () => {
-    setIsSandboxMode(!isSandboxMode);
-    if (!isSandboxMode) {
-      setIsEditMode(true);
-    }
+    setIsEditMode(!isEditMode);
   };
 
   const handleGridPresetChange = (presetId: string) => {
@@ -65,39 +52,33 @@ export function DashboardControls({ onPresetHover, onLayoutHover }: DashboardCon
     setTimeout(() => onLayoutHover?.(null), 100);
   };
 
+  const handleTemplateSelect = (template: DashboardTemplate) => {
+    applyTemplate(template);
+  };
+
   return (
     <div className="flex items-center gap-2">
-      {/* Mode Edition / Sandbox */}
-      <div className="flex items-center gap-1 border rounded-lg p-1">
-        <Button
-          variant={isEditMode && !isSandboxMode ? 'default' : 'ghost'}
-          size="sm"
-          onClick={handleModeToggle}
-          className="h-8"
-        >
-          {isEditMode ? (
-            <>
-              <Check className="mr-2 h-4 w-4" />
-              Terminer
-            </>
-          ) : (
-            <>
-              <Edit3 className="mr-2 h-4 w-4" />
-              Personnaliser
-            </>
-          )}
-        </Button>
+      {/* Template Selector */}
+      <TemplateSelector onSelectTemplate={handleTemplateSelect} />
 
-        <Button
-          variant={isSandboxMode ? 'default' : 'ghost'}
-          size="sm"
-          onClick={handleSandboxToggle}
-          className="h-8"
-        >
-          <Boxes className="mr-2 h-4 w-4" />
-          Sandbox
-        </Button>
-      </div>
+      {/* Mode Edition */}
+      <Button
+        variant={isEditMode ? 'default' : 'outline'}
+        size="sm"
+        onClick={handleModeToggle}
+      >
+        {isEditMode ? (
+          <>
+            <Check className="mr-2 h-4 w-4" />
+            Terminer
+          </>
+        ) : (
+          <>
+            <Edit3 className="mr-2 h-4 w-4" />
+            Personnaliser
+          </>
+        )}
+      </Button>
 
       {/* Grille */}
       <DropdownMenu>

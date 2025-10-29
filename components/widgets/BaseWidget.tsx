@@ -19,9 +19,12 @@ export function BaseWidget({
   return (
     <div
       className={cn(
-        'rounded-lg border border-border bg-card p-6 shadow-sm',
+        'rounded-lg border border-border bg-card p-6',
         className
       )}
+      style={{
+        boxShadow: 'var(--shadow-md)',
+      }}
     >
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-card-foreground">{title}</h3>
