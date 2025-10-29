@@ -10,11 +10,13 @@ interface BudgetProgressWidgetProps {
 }
 
 const DEFAULT_BUDGETS: Record<Categorie, number> = {
-  Alimentation: 400,
+  Alimentaire: 400,
   Transport: 150,
   Logement: 800,
   Loisirs: 200,
   Santé: 100,
+  Vêtements: 100,
+  Électronique: 200,
   Autre: 150,
 };
 
@@ -42,8 +44,7 @@ export function BudgetProgressWidget({
               </div>
               <Progress
                 value={Math.min(percentage, 100)}
-                className="h-2"
-                indicatorClassName={isOverBudget ? 'bg-destructive' : ''}
+                className={isOverBudget ? 'h-2 [&>div]:bg-destructive' : 'h-2'}
               />
             </div>
           );

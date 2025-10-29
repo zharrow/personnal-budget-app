@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { WidgetConfig, GridLayoutPreset, WidgetSize, WidgetSettings } from '@/types';
 import { GRID_PRESETS, DEFAULT_LAYOUTS, applyWidgetSize } from '@/lib/grid-presets';
 import { DashboardTemplate } from '@/lib/dashboardTemplates';
@@ -19,6 +19,8 @@ interface WidgetContextType {
   resetWidgets: () => void;
   addWidget: (widget: WidgetConfig) => void;
   removeWidget: (id: string) => void;
+  saveDashboard: () => void;
+  hasUnsavedChanges: boolean;
   isEditMode: boolean;
   setIsEditMode: (mode: boolean) => void;
   isSandboxMode: boolean;
@@ -27,8 +29,44 @@ interface WidgetContextType {
 
 const WidgetContext = createContext<WidgetContextType | undefined>(undefined);
 
+const STORAGE_KEY = 'budget-app-dashboard';
 const defaultLayoutId = 'classic';
 const defaultWidgets = DEFAULT_LAYOUTS[defaultLayoutId];
+
+// Fonction pour charger le dashboard depuis localStorage
+const loadDashboardFromStorage = (): { widgets: WidgetConfig[]; layout: GridLayoutPreset } | null => {
+  if (typeof window === 'undefined') return null;
+
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (!stored) return null;
+
+    const data = JSON.parse(stored);
+    return {
+      widgets: data.widgets,
+      layout: data.layout,
+    };
+  } catch (error) {
+    console.error('Erreur lors du chargement du dashboard:', error);
+    return null;
+  }
+};
+
+// Fonction pour sauvegarder le dashboard dans localStorage
+const saveDashboardToStorage = (widgets: WidgetConfig[], layout: GridLayoutPreset) => {
+  if (typeof window === 'undefined') return;
+
+  try {
+    const data = {
+      widgets,
+      layout,
+      savedAt: new Date().toISOString(),
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch (error) {
+    console.error('Erreur lors de la sauvegarde du dashboard:', error);
+  }
+};
 
 export function WidgetProvider({ children }: { children: ReactNode }) {
   const [widgets, setWidgets] = useState<WidgetConfig[]>(defaultWidgets);
@@ -37,6 +75,30 @@ export function WidgetProvider({ children }: { children: ReactNode }) {
   );
   const [isEditMode, setIsEditMode] = useState(false);
   const [isSandboxMode, setIsSandboxMode] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [savedState, setSavedState] = useState<string>('');
+
+  // Charger le dashboard au montage du composant
+  useEffect(() => {
+    const stored = loadDashboardFromStorage();
+    if (stored) {
+      setWidgets(stored.widgets);
+      setCurrentLayout(stored.layout);
+      // Sauvegarder l'état initial comme référence
+      setSavedState(JSON.stringify({ widgets: stored.widgets, layout: stored.layout }));
+    } else {
+      // Aucune sauvegarde existante, sauvegarder l'état par défaut
+      setSavedState(JSON.stringify({ widgets: defaultWidgets, layout: currentLayout }));
+    }
+  }, []);
+
+  // Détecter les changements
+  useEffect(() => {
+    const currentState = JSON.stringify({ widgets, layout: currentLayout });
+    if (savedState && currentState !== savedState) {
+      setHasUnsavedChanges(true);
+    }
+  }, [widgets, currentLayout, savedState]);
 
   const updateWidgetPosition = (id: string, x: number, y: number, w: number, h: number) => {
     setWidgets((prev) =>
@@ -173,6 +235,13 @@ export function WidgetProvider({ children }: { children: ReactNode }) {
     setWidgets((prev) => prev.filter((w) => w.id !== id));
   };
 
+  const saveDashboard = () => {
+    saveDashboardToStorage(widgets, currentLayout);
+    const newSavedState = JSON.stringify({ widgets, layout: currentLayout });
+    setSavedState(newSavedState);
+    setHasUnsavedChanges(false);
+  };
+
   return (
     <WidgetContext.Provider
       value={{
@@ -189,6 +258,8 @@ export function WidgetProvider({ children }: { children: ReactNode }) {
         resetWidgets,
         addWidget,
         removeWidget,
+        saveDashboard,
+        hasUnsavedChanges,
         isEditMode,
         setIsEditMode,
         isSandboxMode,

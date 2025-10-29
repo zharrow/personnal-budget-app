@@ -198,7 +198,7 @@ export function DraggableDashboard({
           isDraggable={isEditMode}
           isResizable={isEditMode}
           compactType={currentLayout.compactType}
-          preventCollision={true}
+          preventCollision={false}
           useCSSTransforms={true}
           draggableHandle=".drag-handle"
         >
