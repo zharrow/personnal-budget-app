@@ -29,6 +29,7 @@ export function GarantiesWidget({ garanties }: GarantiesWidgetProps) {
   return (
     <BaseWidget
       title="Garanties actives"
+      className="bg-gradient-pastel-green border-pastel-green"
       actions={
         <Button variant="ghost" size="sm" asChild>
           <a href="/garanties">
@@ -39,15 +40,17 @@ export function GarantiesWidget({ garanties }: GarantiesWidgetProps) {
       }
     >
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Shield className="h-5 w-5 text-green-600" />
-            <span className="text-2xl font-bold">
+        <div className="flex items-center justify-between bg-pastel-green rounded-lg p-3 transition-all duration-300 hover:scale-[1.01]">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-card">
+              <Shield className="h-6 w-6 text-pastel-green" />
+            </div>
+            <span className="text-2xl font-bold text-pastel-green">
               {activeGaranties.length}
             </span>
           </div>
           {expirantBientot > 0 && (
-            <Badge variant="outline" className="bg-orange-50 text-orange-700 border-orange-200">
+            <Badge variant="outline" className="bg-pastel-orange text-pastel-orange border-pastel-orange">
               <AlertCircle className="mr-1 h-3 w-3" />
               {expirantBientot} expire{expirantBientot > 1 ? 'nt' : ''} bientôt
             </Badge>
@@ -62,7 +65,11 @@ export function GarantiesWidget({ garanties }: GarantiesWidgetProps) {
             return (
               <div
                 key={garantie.id}
-                className="p-3 rounded-lg border border-border hover:bg-muted transition-colors"
+                className={`p-3 rounded-lg border transition-all duration-300 hover:scale-[1.01] hover:shadow-sm ${
+                  isExpiringSoon
+                    ? 'bg-pastel-orange border-pastel-orange'
+                    : 'bg-pastel-blue border-pastel-blue'
+                }`}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
@@ -71,13 +78,15 @@ export function GarantiesWidget({ garanties }: GarantiesWidgetProps) {
                       {garantie.magasin}
                     </p>
                   </div>
-                  <p
-                    className={`text-xs font-medium ${
-                      isExpiringSoon ? 'text-orange-600' : 'text-muted-foreground'
+                  <div
+                    className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
+                      isExpiringSoon
+                        ? 'bg-card text-pastel-orange'
+                        : 'bg-card text-pastel-blue'
                     }`}
                   >
                     {daysRemaining}j
-                  </p>
+                  </div>
                 </div>
               </div>
             );
@@ -85,9 +94,9 @@ export function GarantiesWidget({ garanties }: GarantiesWidgetProps) {
         </div>
 
         {activeGaranties.length === 0 && (
-          <div className="text-center py-8 text-muted-foreground">
-            <Shield className="mx-auto h-8 w-8 mb-2 opacity-50" />
-            <p className="text-sm">Aucune garantie active</p>
+          <div className="text-center py-8 bg-pastel-blue rounded-lg">
+            <Shield className="mx-auto h-8 w-8 mb-2 text-pastel-blue" />
+            <p className="text-sm text-pastel-blue">Aucune garantie active</p>
           </div>
         )}
       </div>

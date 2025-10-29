@@ -95,21 +95,21 @@ export default function GarantiesPage() {
     switch (statut) {
       case 'active':
         return (
-          <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+          <Badge variant="green">
             <CheckCircle2 className="mr-1 h-3 w-3" />
             Active
           </Badge>
         );
       case 'expirant_bientot':
         return (
-          <Badge variant="outline" className="bg-orange-50 text-orange-700 border-orange-200">
+          <Badge variant="orange">
             <AlertCircle className="mr-1 h-3 w-3" />
             Expire bientôt
           </Badge>
         );
       case 'expiree':
         return (
-          <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200">
+          <Badge variant="outline" className="bg-muted text-muted-foreground border-muted">
             Expirée
           </Badge>
         );
@@ -138,19 +138,19 @@ export default function GarantiesPage() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between bg-gradient-pastel-green rounded-xl p-6 border border-pastel-green/30 depth-md">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">
+            <h1 className="text-3xl font-bold tracking-tight bg-linear-to-r from-pastel-green to-pastel-teal bg-clip-text text-transparent">
               Gestion des garanties
             </h1>
-            <p className="text-muted-foreground">
+            <p className="text-pastel-green mt-1">
               Suivez vos garanties et recevez des alertes avant expiration
             </p>
           </div>
 
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <Button>
+              <Button variant="gradient">
                 <Plus className="mr-2 h-4 w-4" />
                 Ajouter une garantie
               </Button>
@@ -211,77 +211,77 @@ export default function GarantiesPage() {
 
         {/* Statistics */}
         <div className="grid gap-4 md:grid-cols-4">
-          <Card className="p-4">
+          <Card className="p-4 bg-gradient-pastel-blue border-pastel-blue hover-depth">
             <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-50">
-                <Shield className="h-6 w-6 text-blue-600" />
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-card">
+                <Shield className="h-6 w-6 text-pastel-blue" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Total</p>
-                <p className="text-2xl font-bold">{stats.total}</p>
+                <p className="text-sm text-pastel-blue">Total</p>
+                <p className="text-2xl font-bold text-card-foreground">{stats.total}</p>
               </div>
             </div>
           </Card>
 
-          <Card className="p-4">
+          <Card className="p-4 bg-gradient-pastel-green border-pastel-green hover-depth">
             <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-50">
-                <CheckCircle2 className="h-6 w-6 text-green-600" />
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-card">
+                <CheckCircle2 className="h-6 w-6 text-pastel-green" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Actives</p>
-                <p className="text-2xl font-bold">{stats.active}</p>
+                <p className="text-sm text-pastel-green">Actives</p>
+                <p className="text-2xl font-bold text-card-foreground">{stats.active}</p>
               </div>
             </div>
           </Card>
 
-          <Card className="p-4">
+          <Card className="p-4 bg-gradient-pastel-warm border-pastel-orange hover-depth">
             <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-orange-50">
-                <AlertCircle className="h-6 w-6 text-orange-600" />
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-card">
+                <AlertCircle className="h-6 w-6 text-pastel-orange" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Expirant</p>
-                <p className="text-2xl font-bold">{stats.expirant}</p>
+                <p className="text-sm text-pastel-orange">Expirant</p>
+                <p className="text-2xl font-bold text-card-foreground">{stats.expirant}</p>
               </div>
             </div>
           </Card>
 
-          <Card className="p-4">
+          <Card className="p-4 bg-muted border-muted hover-depth">
             <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-50">
-                <Calendar className="h-6 w-6 text-gray-600" />
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-card">
+                <Calendar className="h-6 w-6 text-muted-foreground" />
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Expirées</p>
-                <p className="text-2xl font-bold">{stats.expiree}</p>
+                <p className="text-2xl font-bold text-card-foreground">{stats.expiree}</p>
               </div>
             </div>
           </Card>
         </div>
 
         {/* Filters */}
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <Button
-            variant={filter === 'all' ? 'default' : 'outline'}
+            variant={filter === 'all' ? 'blue' : 'outline'}
             onClick={() => setFilter('all')}
           >
             Toutes
           </Button>
           <Button
-            variant={filter === 'active' ? 'default' : 'outline'}
+            variant={filter === 'active' ? 'green' : 'outline'}
             onClick={() => setFilter('active')}
           >
             Actives
           </Button>
           <Button
-            variant={filter === 'expirant_bientot' ? 'default' : 'outline'}
+            variant={filter === 'expirant_bientot' ? 'gradient' : 'outline'}
             onClick={() => setFilter('expirant_bientot')}
           >
             Expirant bientôt
           </Button>
           <Button
-            variant={filter === 'expiree' ? 'default' : 'outline'}
+            variant={filter === 'expiree' ? 'secondary' : 'outline'}
             onClick={() => setFilter('expiree')}
           >
             Expirées
@@ -294,11 +294,11 @@ export default function GarantiesPage() {
             const daysRemaining = getDaysRemaining(garantie.finGarantie);
 
             return (
-              <Card key={garantie.id} className="p-6">
+              <Card key={garantie.id} className="p-6 hover-depth transition-all duration-300 bg-gradient-pastel-sunset border-pastel-pink/30">
                 <div className="flex items-start justify-between">
                   <div className="flex gap-4 flex-1">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 shrink-0">
-                      <Package className="h-6 w-6 text-primary" />
+                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-pastel-purple shrink-0">
+                      <Package className="h-6 w-6 text-pastel-purple" />
                     </div>
 
                     <div className="flex-1 space-y-3">
@@ -339,10 +339,10 @@ export default function GarantiesPage() {
                           </p>
                           <p className={`font-medium ${
                             daysRemaining < 30 && daysRemaining > 0
-                              ? 'text-orange-600'
+                              ? 'text-pastel-orange'
                               : daysRemaining <= 0
-                              ? 'text-gray-600'
-                              : ''
+                              ? 'text-muted-foreground'
+                              : 'text-pastel-green'
                           }`}>
                             {daysRemaining > 0
                               ? `${daysRemaining} jours`

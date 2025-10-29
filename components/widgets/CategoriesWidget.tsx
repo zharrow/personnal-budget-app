@@ -20,38 +20,44 @@ export function CategoriesWidget({ data }: CategoriesWidgetProps) {
     .slice(0, 5);
 
   const getCategorieColor = (categorie: string) => {
-    const colors: Record<string, string> = {
-      Alimentaire: 'bg-green-500',
-      Transport: 'bg-blue-500',
-      Logement: 'bg-purple-500',
-      Loisirs: 'bg-pink-500',
-      Santé: 'bg-red-500',
-      Vêtements: 'bg-yellow-500',
-      Électronique: 'bg-indigo-500',
-      Autre: 'bg-gray-500',
+    const colors: Record<string, { bg: string; text: string; badge: string }> = {
+      Alimentaire: { bg: 'bg-pastel-green', text: 'text-pastel-green', badge: 'bg-pastel-green' },
+      Transport: { bg: 'bg-pastel-blue', text: 'text-pastel-blue', badge: 'bg-pastel-blue' },
+      Logement: { bg: 'bg-pastel-purple', text: 'text-pastel-purple', badge: 'bg-pastel-purple' },
+      Loisirs: { bg: 'bg-pastel-pink', text: 'text-pastel-pink', badge: 'bg-pastel-pink' },
+      Santé: { bg: 'bg-pastel-red', text: 'text-pastel-red', badge: 'bg-pastel-red' },
+      Vêtements: { bg: 'bg-pastel-yellow', text: 'text-pastel-yellow', badge: 'bg-pastel-yellow' },
+      Électronique: { bg: 'bg-pastel-indigo', text: 'text-pastel-indigo', badge: 'bg-pastel-indigo' },
+      Autre: { bg: 'bg-muted', text: 'text-muted-foreground', badge: 'bg-muted' },
     };
     return colors[categorie] || colors.Autre;
   };
 
   return (
-    <BaseWidget title="Dépenses par catégorie">
-      <div className="space-y-3">
+    <BaseWidget title="Dépenses par catégorie" className="bg-gradient-pastel-cool border-pastel-teal">
+      <div className="space-y-4">
         {categories.map(({ categorie, montant, percentage }) => (
-          <div key={categorie} className="space-y-1">
+          <div key={categorie} className="space-y-2">
             <div className="flex items-center justify-between text-sm">
-              <span className="font-medium">{categorie}</span>
-              <span className="text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <span className={`w-2 h-2 rounded-full ${getCategorieColor(categorie).bg}`} />
+                <span className="font-medium">{categorie}</span>
+              </div>
+              <span className={`font-semibold ${getCategorieColor(categorie).text}`}>
                 {montant.toLocaleString('fr-FR', {
                   style: 'currency',
                   currency: 'EUR',
                 })}
               </span>
             </div>
-            <div className="h-2 rounded-full bg-muted overflow-hidden">
+            <div className="h-3 rounded-full bg-muted overflow-hidden relative group">
               <div
-                className={`h-full ${getCategorieColor(categorie)} transition-all duration-500`}
+                className={`h-full ${getCategorieColor(categorie).bg} transition-all duration-500 group-hover:opacity-80`}
                 style={{ width: `${percentage}%` }}
               />
+              <span className="absolute inset-0 flex items-center justify-center text-xs font-medium text-card-foreground opacity-0 group-hover:opacity-100 transition-opacity">
+                {percentage.toFixed(1)}%
+              </span>
             </div>
           </div>
         ))}

@@ -19,7 +19,7 @@ export function BaseWidget({
   return (
     <div
       className={cn(
-        'rounded-lg border border-border bg-card p-6',
+        'rounded-lg border border-border/50 bg-gradient-to-br from-card via-card to-accent/5 p-6 hover-depth transition-all duration-300',
         className
       )}
       style={{
@@ -27,7 +27,7 @@ export function BaseWidget({
       }}
     >
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-card-foreground">{title}</h3>
+        <h3 className="text-lg font-semibold text-card-foreground bg-gradient-to-r from-primary to-accent bg-clip-text">{title}</h3>
         {actions && <div className="flex gap-2">{actions}</div>}
       </div>
       <div>{children}</div>

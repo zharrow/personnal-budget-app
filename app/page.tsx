@@ -136,10 +136,10 @@ export default function Home() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between bg-gradient-pastel-blue rounded-xl p-6 border border-pastel-blue/30 depth-md">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-            <p className="text-muted-foreground">
+            <h1 className="text-3xl font-bold tracking-tight bg-linear-to-r from-pastel-blue to-pastel-purple bg-clip-text text-transparent">Dashboard</h1>
+            <p className="text-pastel-blue mt-1">
               Bienvenue sur votre gestionnaire de budget et garanties
             </p>
           </div>
