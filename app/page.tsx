@@ -1,65 +1,177 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import { DashboardLayout } from '@/components/layout/DashboardLayout';
+import { DraggableDashboard } from '@/components/dashboard/DraggableDashboard';
+import { DashboardControls } from '@/components/dashboard/DashboardControls';
+import { GridPreviewOverlay } from '@/components/dashboard/GridPreviewOverlay';
+import { LayoutPreviewOverlay } from '@/components/dashboard/LayoutPreviewOverlay';
+import { Transaction, Garantie, Categorie, GridLayoutPreset } from '@/types';
+import { useWarrantyAlertsDemo } from '@/hooks/useWarrantyAlerts';
+import { DEFAULT_LAYOUTS } from '@/lib/grid-presets';
+import { useWidgets } from '@/contexts/WidgetContext';
+
+// Données de démonstration
+const mockTransactions: Transaction[] = [
+  {
+    id: '1',
+    magasin: 'Carrefour',
+    date: '2024-10-28',
+    categorie: 'Alimentaire',
+    articles: [{ nom: 'Courses', prix: 47.85 }],
+    total: 47.85,
+    devise: 'EUR',
+    createdAt: '2024-10-28T14:30:00Z',
+    updatedAt: '2024-10-28T14:30:00Z',
+  },
+  {
+    id: '2',
+    magasin: 'Total Energies',
+    date: '2024-10-27',
+    categorie: 'Transport',
+    articles: [{ nom: 'Essence', prix: 65.4 }],
+    total: 65.4,
+    devise: 'EUR',
+    createdAt: '2024-10-27T08:15:00Z',
+    updatedAt: '2024-10-27T08:15:00Z',
+  },
+  {
+    id: '3',
+    magasin: 'Fnac',
+    date: '2024-10-25',
+    categorie: 'Électronique',
+    articles: [{ nom: 'Casque', prix: 102.98 }],
+    total: 102.98,
+    devise: 'EUR',
+    createdAt: '2024-10-25T16:45:00Z',
+    updatedAt: '2024-10-25T16:45:00Z',
+  },
+  {
+    id: '4',
+    magasin: 'Pharmacie',
+    date: '2024-10-24',
+    categorie: 'Santé',
+    articles: [{ nom: 'Médicaments', prix: 11.4 }],
+    total: 11.4,
+    devise: 'EUR',
+    createdAt: '2024-10-24T11:20:00Z',
+    updatedAt: '2024-10-24T11:20:00Z',
+  },
+  {
+    id: '5',
+    magasin: 'Netflix',
+    date: '2024-10-20',
+    categorie: 'Loisirs',
+    articles: [{ nom: 'Abonnement', prix: 13.49 }],
+    total: 13.49,
+    devise: 'EUR',
+    createdAt: '2024-10-20T00:01:00Z',
+    updatedAt: '2024-10-20T00:01:00Z',
+  },
+];
+
+const mockGaranties: Garantie[] = [
+  {
+    id: '1',
+    magasin: 'Darty',
+    produit: 'Lave-linge Samsung 8kg',
+    dateAchat: '2023-01-15',
+    dureeGarantie: '2 ans',
+    finGarantie: '2025-01-15',
+    montant: 599.0,
+    statut: 'active',
+    createdAt: '2023-01-15T10:00:00Z',
+    updatedAt: '2023-01-15T10:00:00Z',
+  },
+  {
+    id: '2',
+    magasin: 'Boulanger',
+    produit: 'MacBook Pro 14"',
+    dateAchat: '2024-06-20',
+    dureeGarantie: '1 an',
+    finGarantie: '2025-06-20',
+    montant: 2299.0,
+    statut: 'active',
+    createdAt: '2024-06-20T14:30:00Z',
+    updatedAt: '2024-06-20T14:30:00Z',
+  },
+  {
+    id: '3',
+    magasin: 'Ikea',
+    produit: 'Canapé Kivik',
+    dateAchat: '2024-11-10',
+    dureeGarantie: '10 ans',
+    finGarantie: '2034-11-10',
+    montant: 899.0,
+    statut: 'active',
+    createdAt: '2024-11-10T11:20:00Z',
+    updatedAt: '2024-11-10T11:20:00Z',
+  },
+];
+
+const mockCategoriesData: Record<Categorie, number> = {
+  Alimentaire: 450.30,
+  Transport: 280.15,
+  Loisirs: 150.00,
+  Santé: 85.40,
+  Électronique: 102.98,
+  Vêtements: 89.99,
+  Logement: 950.00,
+  Autre: 45.20,
+};
 
 export default function Home() {
+  // Activer les notifications de démonstration
+  useWarrantyAlertsDemo(mockGaranties);
+
+  // Récupérer le layout actuel depuis le contexte
+  const { currentLayout } = useWidgets();
+
+  // État pour la prévisualisation de la grille
+  const [hoveredPreset, setHoveredPreset] = useState<GridLayoutPreset | null>(null);
+
+  // État pour la prévisualisation du layout
+  const [hoveredLayoutId, setHoveredLayoutId] = useState<string | null>(null);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <DashboardLayout>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+            <p className="text-muted-foreground">
+              Bienvenue sur votre gestionnaire de budget et garanties
+            </p>
+          </div>
+
+          <DashboardControls
+            onPresetHover={setHoveredPreset}
+            onLayoutHover={setHoveredLayoutId}
+          />
+        </div>
+
+        <DraggableDashboard
+          transactions={mockTransactions}
+          garanties={mockGaranties}
+          categoriesData={mockCategoriesData}
+          solde={2450.75}
+          depensesMois={1234.50}
+          variation={-12.5}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </div>
+
+      {/* Overlay de prévisualisation de la grille */}
+      <GridPreviewOverlay preset={hoveredPreset} isVisible={hoveredPreset !== null} />
+
+      {/* Overlay de prévisualisation du layout */}
+      <LayoutPreviewOverlay
+        layoutId={hoveredLayoutId}
+        layoutWidgets={hoveredLayoutId ? DEFAULT_LAYOUTS[hoveredLayoutId] : null}
+        isVisible={hoveredLayoutId !== null}
+        gridColumns={currentLayout.columns}
+        rowHeight={currentLayout.rowHeight}
+        gap={currentLayout.gap}
+      />
+    </DashboardLayout>
   );
 }
